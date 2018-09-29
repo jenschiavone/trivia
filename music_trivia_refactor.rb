@@ -172,10 +172,12 @@ def take_exam(category, number_of_questions, contestant, session)
 	contestant.available_categories.delete("#{category}")
 
 	calculate_score(exam, contestant, category, session)
+  #set final scores
+  #set average
 end
 
 
-def set_search_method(action, contestant, session)
+def set_search_method(contestant, session)
 
 	puts "How would you like to proceed?"
 	puts "1. Find player by username"
@@ -195,32 +197,21 @@ def set_search_method(action, contestant, session)
 	case choice
 	 	when "1"
 	 		search = "by_username"
-	 		get_contestant(search, action, contestant, session)
+	 		get_contestant(search, contestant, session)
 	 	when "2"
 	 		search = "by_last_name"
-	 		get_contestant(search, action, contestant, session)
+	 		get_contestant(search, contestant, session)
 	 	when "E", "e"
 	 		goodbye
 	end
 end
 
-
 def check_all_averages(contestant, session)
-	contestants = session.contestants
-  if !contestants.empty?
-		user_ids = []
-		puts "\n"
-		puts "*** All Player Averages ***"
-		contestants.each do |contestant|
-			puts "#{contestant.username}: #{contestant.average}%"
-		end
-	end
-
+	session.check_all_averages
 	submenu(contestant, session)
 end
 
-
-def get_contestant(search, action, contestant, session)
+def get_contestant(search, contestant, session)
   contestants = session.contestants
 		if !contestants.empty?
 			if search == "by_last_name"
@@ -263,7 +254,6 @@ def get_contestant(search, action, contestant, session)
 				print_menu(false)
 		end
 end
-
 
 def calculate_score(exam, contestant, category, session)
 
@@ -312,7 +302,7 @@ def submenu(contestant, session)
 	 	when "2"
 	 		add_contestant(session)
 	 	when "3"
-	 		set_search_method("play", contestant, session)
+	 		set_search_method(contestant, session)
 	 	when "4"
 	 		check_scores(contestant, session)
 	 	when "5"
