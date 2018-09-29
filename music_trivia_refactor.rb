@@ -41,10 +41,10 @@ def add_contestant(session)
 
 	session.contestants << contestant
 
-	print_menu(true, contestant, session)
+	show_menu(true, contestant, session)
 end
 
-def print_menu(option, contestant, session)
+def show_menu(option, contestant, session)
 	if option
 		system "clear"
 	end
@@ -113,7 +113,6 @@ def print_menu(option, contestant, session)
 	end
 end
 
-
 def number_of_questions
 
 	questions = ""
@@ -139,7 +138,6 @@ def number_of_questions
   number
 end
 
-
 def take_exam(category, contestant, session)
 	puts "Good luck, #{contestant.username}!"
 
@@ -148,14 +146,15 @@ def take_exam(category, contestant, session)
 
 	contestant.available_categories.delete("#{category}")
 
-	calculate_score(exam, contestant, category, session)
-  #set final scores
-  #set average
+  score = exam.score
+  contestant.update_scores(category, score)
+
+  show_submenu(contestant, session)
 end
 
 def check_all_averages(contestant, session)
 	session.check_all_averages
-	submenu(contestant, session)
+	show_submenu(contestant, session)
 end
 
 def switch_contestant(contestant, session)
@@ -163,30 +162,15 @@ def switch_contestant(contestant, session)
   username = gets.chomp.downcase
   matching_contestant = session.get_contestant_by_username(username)
   if matching_contestant != nil
-    print_menu(true, matching_contestant, session)
+    show_menu(true, matching_contestant, session)
   else
     puts "\n"
     puts "*** There are no contestants who match your search ***"
-    submenu(contestant, session)
+    show_submenu(contestant, session)
   end
 end
 
-def calculate_score(exam, contestant, category, session)
-  score = exam.score
-	contestant.scores.each do |item|
-		if item.has_value?("#{category}")
-			item['score'] = score
-			contestant.final_scores.push(score.to_i)
-		end
-	end
-	average = contestant.final_scores.inject { |sum, el| sum + el}.to_f / contestant.final_scores.length.to_f
-	average = average.round
-	contestant.average = average
-
-	submenu(contestant, session)
-end
-
-def submenu(contestant, session)
+def show_submenu(contestant, session)
 
 	puts "\n"
 	puts "What would you like to do next, #{contestant.username}?"
@@ -209,7 +193,7 @@ def submenu(contestant, session)
 
 	case choice
 	 	when "A"
-	 		print_menu(true, contestant, session)
+	 		show_menu(true, contestant, session)
 	 	when "B"
 	 		add_contestant(session)
 	 	when "C"
@@ -225,7 +209,7 @@ end
 
 def check_scores(contestant, session)
 	contestant.check_scores
-	submenu(contestant, session)
+	show_submenu(contestant, session)
 end
 
 # *******START*******

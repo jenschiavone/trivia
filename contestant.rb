@@ -56,4 +56,15 @@ class Contestant
     puts "The average score for #{self.username} is #{self.average}%"
   end
 
+  def update_scores(category, score)
+    self.scores.each do |item|
+      if item.has_value?("#{category}")
+        item['score'] = score
+        self.final_scores << score.to_i
+      end
+  end
+    average = self.final_scores.inject { |sum, el| sum + el }.to_f / self.final_scores.length.to_f
+    average = average.round
+    self.average = average
+  end
 end
