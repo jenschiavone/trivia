@@ -1,13 +1,11 @@
 class Contestant
 
-  attr_accessor :first_name, :last_name, :username, :scores, :final_scores, :average, :available_categories
+  attr_accessor :username, :scores, :final_scores, :average, :available_categories
 
   @@id = 0
 
-  def initialize(first_name, last_name, username)
+  def initialize(username)
     @@id += 1
-    @first_name = first_name
-    @last_name = last_name
     @username = username
     @id = @@id
     @scores = [
@@ -20,14 +18,6 @@ class Contestant
     @final_scores = []
     @average = ""
     @available_categories = ["The Beatles", "The 80s", "Indie Rock", "Rap/Hip Hop", "Jazz"]
-  end
-
-  def first_name
-    @first_name
-  end
-
-  def last_name
-    @last_name
   end
 
   def username
