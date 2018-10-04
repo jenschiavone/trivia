@@ -62,7 +62,7 @@ class Exam
   def take_exam
     score = 0
     question_number = 1
-    self.questions.each do |question|
+    questions.each do |question|
       puts "\n"
       puts "Question number #{question_number}: "
       puts question.question

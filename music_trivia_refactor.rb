@@ -109,7 +109,7 @@ def show_menu(option, contestant, session)
 		end
 	else
 		puts "Congratulations, you've completed all categories!"
-		check_scores(contestant.id, session)
+		check_scores(contestant, session)
 	end
 end
 
